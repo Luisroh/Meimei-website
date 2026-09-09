@@ -1,0 +1,312 @@
+{% extends 'frontend/base.html' %}
+{% load static %}
+
+{% block title %}Contacto - Meimei Estética{% endblock %}
+
+{% block extra_css %}
+<style>
+    .page-header {
+        background: linear-gradient(135deg, var(--rosa-suave), var(--blanco), var(--rosa-suave));
+        position: relative;
+        overflow: hidden;
+    }
+
+    .page-header::before {
+        content: '🌸';
+        position: absolute;
+        font-size: 8rem;
+        opacity: 0.05;
+        right: 10%;
+        top: 50%;
+        transform: translateY(-50%);
+    }
+
+    .page-header::after {
+        content: '🌿';
+        position: absolute;
+        font-size: 6rem;
+        opacity: 0.04;
+        left: 5%;
+        bottom: 20%;
+        transform: rotate(-15deg);
+    }
+
+    .contact-grid {
+        position: relative;
+        z-index: 1;
+    }
+</style>
+{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <h1>¿Hablamos? 💬</h1>
+    <p>Estamos aquí para escucharte y acompañarte en tu camino al bienestar</p>
+</section>
+
+<section class="page-content">
+    {% if messages %}
+    <div class="messages-container">
+        {% for message in messages %}
+        <div class="message message-{{ message.tags }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+    <div class="contact-grid">
+        <div class="contact-form-section">
+            <h2 style="font-size: 2rem; margin-bottom: 0.5rem; color: var(--negro);">
+                ✨ Envíanos un mensaje
+            </h2>
+            <p style="color: var(--gris-oscuro); margin-bottom: 2rem; font-size: 1.05rem;">
+                Cuéntanos qué necesitas y te responderemos con todo el cariño del mundo
+            </p>
+
+            <form method="post" class="contact-form" id="formContacto" novalidate>
+                {% csrf_token %}
+
+                <div class="form-group icon-input">
+                    <label for="{{ form.nombre.id_for_label }}">
+                        Nombre completo <span class="required">*</span>
+                    </label>
+                    <i class="fas fa-user input-icon"></i>
+                    {{ form.nombre }}
+                    {% if form.nombre.errors %}
+                    <span class="error-message">{{ form.nombre.errors.0 }}</span>
+                    {% endif %}
+                </div>
+
+                <div class="form-group icon-input">
+                    <label for="{{ form.email.id_for_label }}">
+                        Correo electrónico <span class="required">*</span>
+                    </label>
+                    <i class="fas fa-envelope input-icon"></i>
+                    {{ form.email }}
+                    {% if form.email.errors %}
+                    <span class="error-message">{{ form.email.errors.0 }}</span>
+                    {% endif %}
+                </div>
+
+                <div class="form-group icon-input">
+                    <label for="{{ form.telefono.id_for_label }}">
+                        Teléfono de contacto
+                    </label>
+                    <i class="fas fa-phone-alt input-icon"></i>
+                    {{ form.telefono }}
+                    {% if form.telefono.errors %}
+                    <span class="error-message">{{ form.telefono.errors.0 }}</span>
+                    {% endif %}
+                </div>
+
+                <div class="form-group icon-input">
+                    <label for="{{ form.servicio.id_for_label }}">
+                        ¿Qué servicio te interesa?
+                    </label>
+                    <i class="fas fa-spa input-icon"></i>
+                    {{ form.servicio }}
+                    {% if form.servicio.errors %}
+                    <span class="error-message">{{ form.servicio.errors.0 }}</span>
+                    {% endif %}
+                </div>
+
+                <div class="form-group icon-input">
+                    <label for="{{ form.mensaje.id_for_label }}">
+                        Cuéntanos tu historia <span class="required">*</span>
+                    </label>
+                    <i class="fas fa-pen-fancy input-icon" style="top: 3rem;"></i>
+                    {{ form.mensaje }}
+                    {% if form.mensaje.errors %}
+                    <span class="error-message">{{ form.mensaje.errors.0 }}</span>
+                    {% endif %}
+                </div>
+
+                <input type="hidden" id="g-recaptcha-response" name="g-recaptcha-response">
+
+                <button type="submit" class="btn-primary btn-large" id="btnEnviar">
+                    <i class="fas fa-paper-plane"></i> Enviar mensaje
+                </button>
+
+                <p style="text-align: center; margin-top: 1.2rem; font-size: 0.85rem; color: #bbb;">
+                    <i class="fas fa-lock" style="color: var(--rosa-intenso);"></i>
+                    Tus datos están seguros. No compartiremos tu información.
+                </p>
+            </form>
+        </div>
+
+        <div class="contact-info-section">
+            <h2 style="font-size: 2rem; margin-bottom: 2rem; color: var(--negro);">
+                📌 Información de contacto
+            </h2>
+
+            <div class="contact-info-item">
+                <i class="fas fa-map-pin"></i>
+                <div>
+                    <h4>📍 Visítanos</h4>
+                    <p>Carrer Jaume Fabra 7<br>08004, Barcelona</p>
+                    <p style="font-size: 0.9rem; margin-top: 0.3rem;">
+                        <a href="https://maps.app.goo.gl/p9iXuyNDXrjnoCyQA" target="_blank"
+                            style="color: var(--rosa-intenso);">
+                            <i class="fas fa-external-link-alt"></i> Cómo llegar
+                        </a>
+                    </p>
+                </div>
+            </div>
+
+            <div class="contact-info-item">
+                <i class="fas fa-phone-alt"></i>
+                <div>
+                    <h4>📞 Teléfono</h4>
+                    <p><a href="https://wa.me/34699905108" target="_blank">699 90 51 08</a></p>
+                    <p style="font-size: 0.9rem; color: #999;">Llamadas y WhatsApp</p>
+                </div>
+            </div>
+
+            <div class="contact-info-item">
+                <i class="fas fa-envelope"></i>
+                <div>
+                    <h4>✉️ Email</h4>
+                    <p><a href="mailto:mei.info.contacto@gmail.com" target="_blank">mei.info.contacto@gmail.com</a></p>
+                    <p style="font-size: 0.9rem; color: #999;">Respondemos en menos de 24h</p>
+                </div>
+            </div>
+
+            <div class="contact-info-item">
+                <i class="fas fa-clock"></i>
+                <div>
+                    <h4>🕐 Horario de atención</h4>
+                    <p><strong>Lun - Vie:</strong> 10:00 - 20:00</p>
+                    <p><strong>Sábado:</strong> 10:00 - 16:00</p>
+                    <p><strong>Domingo:</strong> Cerrado</p>
+                </div>
+            </div>
+            </br>
+            <div class="contact-social">
+                <h4 style="font-size: 1.1rem; margin-bottom: 1rem; color: var(--negro);">
+                    🌿 Síguenos en redes
+                </h4>
+                <p style="color: var(--gris-oscuro); font-size: 0.95rem; margin-bottom: 1rem;">
+                    Conéctate con nosotros y descubre nuestro mundo de bienestar
+                </p>
+                <div class="social-links">
+                    <a href="https://www.instagram.com/meimei_perruqueria_unas/" class="social-link"
+                        aria-label="Instagram" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.facebook.com/profile.php?id=100090729540029&locale=es_ES" class="social-link"
+                        aria-label="Facebook" target="_blank"><i class="fab fa-facebook"></i></a>
+                    <a href="https://wa.me/34699905108" class="social-link" aria-label="WhatsApp"><i
+                            class="fab fa-whatsapp" target="_blank"></i></a>
+                    <a href="https://www.tiktok.com/@meimei_perruqueria?lang=es" class="social-link" aria-label="TikTok"
+                        target="_blank"><i class="fab fa-tiktok"></i></a>
+                </div>
+            </div>
+        </div>
+    </div>
+    </div>
+
+    <!-- Mapa -->
+    <div class="map-section">
+        <h2 style="text-align: center; font-size: 2rem; margin-bottom: 2rem;">🗺️ ¿Cómo llegar?</h2>
+        <div class="map-container">
+            <iframe
+                src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3500.7732621869336!2d2.157533912121516!3d41.37452347118182!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x12a4a3bcc0ea5217%3A0xf3ece7d5485144d5!2sMei%20mei%20centro%20de%20masajes%20y%20peluquer%C3%ADa!5e1!3m2!1ses-419!2ses!4v1788979071834!5m2!1ses-419!2ses"
+                width="100%" height="400" style="border:0;" allowfullscreen="" loading="lazy"
+                title="Ubicación de Meimei Estética" referrerpolicy="no-referrer-when-downgrade">
+            </iframe>
+        </div>
+    </div>
+</section>
+
+{% endblock %}
+
+{% block extra_js %}
+
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.getElementById('formContacto');
+        const btnEnviar = document.getElementById('btnEnviar');
+        let isSubmitting = false;
+
+        form.addEventListener('submit', function (e) {
+            if (isSubmitting) {
+                e.preventDefault();
+                return;
+            }
+
+            let isValid = true;
+
+            document.querySelectorAll('.error-message').forEach(el => el.remove());
+            document.querySelectorAll('.form-input.error').forEach(el => el.classList.remove('error'));
+
+            const nombre = document.getElementById('{{ form.nombre.id_for_label }}');
+            const email = document.getElementById('{{ form.email.id_for_label }}');
+            const mensaje = document.getElementById('{{ form.mensaje.id_for_label }}');
+
+            if (!nombre.value.trim() || nombre.value.trim().length < 2) {
+                mostrarError(nombre, 'Cuéntanos tu nombre para conocerte mejor 💫');
+                isValid = false;
+            }
+
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!email.value.trim() || !emailRegex.test(email.value)) {
+                mostrarError(email, 'El correo no parece válido, revisa por favor 📧');
+                isValid = false;
+            }
+            if (!mensaje.value.trim() || mensaje.value.trim().length < 10) {
+                mostrarError(mensaje, 'Cuéntanos un poco más, queremos conocerte 💝');
+                isValid = false;
+            }
+
+            if (!isValid) {
+                e.preventDefault();
+                const firstError = document.querySelector('.form-input.error');
+                if (firstError) {
+                    firstError.scrollIntoView({ behavior: 'smooth', block: 'center' });
+                    firstError.focus();
+                }
+            } else {
+                isSubmitting = true;
+                btnEnviar.disabled = true;
+                btnEnviar.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
+            }
+        });
+
+        function mostrarError(input, mensaje) {
+            const error = document.createElement('span');
+            error.className = 'error-message';
+            error.textContent = mensaje;
+            input.classList.add('error');
+            input.parentNode.appendChild(error);
+        }
+    });
+</script>
+
+{% endblock %}
+
+{% if settings.RECAPTCHA_SITE_KEY %}
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const form = document.getElementById('formContacto');
+
+        form.addEventListener('submit', function (e) {
+            e.preventDefault(); // Prevenir envío hasta tener el token
+
+            const btnEnviar = document.getElementById('btnEnviar');
+            btnEnviar.disabled = true;
+            btnEnviar.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Verificando...';
+
+            // Obtener token de reCAPTCHA
+            grecaptcha.execute('{{ settings.RECAPTCHA_SITE_KEY }}', { action: 'contacto' })
+                .then(function (token) {
+                    document.getElementById('g-recaptcha-response').value = token;
+                    form.submit();
+                })
+                .catch(function (error) {
+                    alert('Error al verificar el CAPTCHA. Por favor, recarga la página e intenta de nuevo.');
+                    btnEnviar.disabled = false;
+                    btnEnviar.innerHTML = '<i class="fas fa-paper-plane"></i> Enviar mensaje';
+                });
+        });
+    });
+</script>
+{% endif %}

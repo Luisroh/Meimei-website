@@ -1,0 +1,215 @@
+{% extends 'frontend/base.html' %}
+{% load static %}
+
+{% block title %}Quiénes Somos - Meimei Estética{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <h1>Nuestra Historia</h1>
+    <p>Un espacio donde el bienestar y la energía positiva se encuentran</p>
+</section>
+
+<section class="page-content">
+    <div class="about-grid">
+        <div class="about-text">
+            <h2>El origen de Meimei</h2>
+            <p>
+                Meimei nace del sueño de <strong>Paola</strong>, una mujer con una sensibilidad especial
+                para conectar con las personas a través del tacto y la escucha activa. Con más de 10 años
+                de experiencia en el mundo del bienestar y 4 años dedicada en cuerpo y alma a este proyecto,
+                decidió crear un espacio donde cada cliente se sienta único, escuchado y renovado.
+            </p>
+            <p>
+                Su deseo siempre fue sanar a los demás. Desde muy joven soñaba con tener su propio centro
+                de masajes y estética, un lugar donde no solo pudiera hacer lo que ama, sino también
+                conectar profundamente con la gente y ayudarlas a encontrar su bienestar.
+            </p>
+
+            <h3>¿Por qué "Meimei"?</h3>
+            <p>
+                "Meimei" (美美) significa <strong>"belleza"</strong> en chino mandarín. Pero no es un nombre
+                elegido al azar: es el nombre de nuestra perrita, la compañera inseparable de Paola,
+                su motor diario y la verdadera dueña del local.
+            </p>
+            <p>
+                Paola decidió honrarla poniendo su nombre al centro. Siempre dice con una sonrisa que
+                "Meimei es la que manda aquí". Y no le falta razón: la perra la acompaña todos los días
+                al trabajo, llenando el espacio de alegría, amor incondicional y esa energía especial
+                que solo los animales saben dar.
+            </p>
+
+            <h3>Nuestra filosofía</h3>
+            <ul class="philosophy-list">
+                <li>
+                    <i class="fas fa-heart"></i>
+                    <strong>Empatía:</strong> Escuchamos tu cuerpo y tus necesidades.
+                </li>
+                <li>
+                    <i class="fas fa-leaf"></i>
+                    <strong>Energía:</strong> Cada masaje es una transmisión de buenas vibraciones.
+                </li>
+                <li>
+                    <i class="fas fa-spa"></i>
+                    <strong>Sanación:</strong> El masaje como herramienta de bienestar integral.
+                </li>
+                <li>
+                    <i class="fas fa-hand-holding-heart"></i>
+                    <strong>Pasión:</strong> Amamos lo que hacemos y se nota en cada detalle.
+                </li>
+                <li>
+                    <i class="fas fa-heart"></i>
+                    <strong>Cuidar el cuerpo y el alma:</strong> Creemos que el bienestar es integral.
+                </li>
+                <li>
+                    <i class="fas fa-leaf"></i>
+                    <strong>El masaje es sanación:</strong> Cada sesión es un acto de cuidado profundo.
+                </li>
+                <li>
+                    <i class="fas fa-spa"></i>
+                    <strong>Conexión y empatía:</strong> Escuchamos lo que tu cuerpo necesita decir.
+                </li>
+                <li>
+                    <i class="fas fa-paw"></i>
+                    <strong>Amor por los animales:</strong> Meimei nos recuerda que el amor más puro existe.
+                </li>
+            </ul>
+        </div>
+
+        <div class="about-image">
+            <img src="{% static 'images/recepción (3).jpeg' %}" alt="Nuestro salón Meimei">
+            <div class="about-image-caption">
+                <p>Nuestro rincón de paz y bienestar</p>
+            </div>
+        </div>
+    </div>
+
+    <div class="testimonial-quote">
+        <blockquote>
+            "El masaje no es solo una técnica, es un lenguaje universal que habla de cuidado,
+            respeto y amor hacia el otro. En Meimei, cada sesión es una conversación sin palabras
+            entre el alma del terapeuta y el cuerpo del cliente."
+        </blockquote>
+        <cite>— Paola, fundadora de Meimei</cite>
+    </div>
+</section>
+
+<style>
+    .about-grid {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 4rem;
+        margin-bottom: 4rem;
+    }
+
+    .about-text h2 {
+        font-size: 2.5rem;
+        color: var(--negro);
+        margin-bottom: 1.5rem;
+    }
+
+    .about-text h3 {
+        font-size: 1.8rem;
+        color: var(--rosa-intenso);
+        margin-top: 2rem;
+        margin-bottom: 1rem;
+    }
+
+    .about-text p {
+        color: var(--gris-oscuro);
+        font-size: 1.1rem;
+        line-height: 1.8;
+        margin-bottom: 1rem;
+    }
+
+    .philosophy-list {
+        list-style: none;
+        padding: 0;
+        margin-top: 1.5rem;
+    }
+
+    .philosophy-list li {
+        padding: 1rem 0;
+        border-bottom: 1px solid var(--rosa-suave);
+        display: flex;
+        flex-direction: row;
+        align-items: center;
+        gap: 1rem;
+        font-size: 1.1rem;
+    }
+
+    .philosophy-list li i {
+        color: var(--rosa-intenso);
+        font-size: 1.5rem;
+        width: 35px;
+    }
+
+    .about-image img {
+        border-radius: var(--borde-redondo-grande);
+        box-shadow: var(--sombra-fuerte);
+        width: 100%;
+        height: 500px;
+        object-fit: cover;
+    }
+
+    .about-image-caption {
+        text-align: center;
+        margin-top: 1rem;
+        color: var(--gris-oscuro);
+        font-style: italic;
+    }
+
+    .testimonial-quote {
+        background: var(--rosa-suave);
+        padding: 3rem;
+        border-radius: var(--borde-redondo-grande);
+        text-align: center;
+        margin-top: 3rem;
+        border-left: 5px solid var(--rosa-intenso);
+    }
+
+    .testimonial-quote blockquote {
+        font-family: var(--fuente-titulos);
+        font-size: 1.8rem;
+        color: var(--negro);
+        line-height: 1.6;
+        margin-bottom: 1rem;
+    }
+
+    .testimonial-quote cite {
+        font-style: normal;
+        color: var(--rosa-intenso);
+        font-weight: 600;
+        font-size: 1.2rem;
+    }
+
+    @media (max-width: 1024px) {
+        .about-grid {
+            grid-template-columns: 1fr;
+            gap: 2rem;
+        }
+
+        .about-image img {
+            height: 350px;
+        }
+
+        .testimonial-quote blockquote {
+            font-size: 1.4rem;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .philosophy-list li {
+            font-size: 1rem;
+            padding: 0.8rem 0;
+        }
+
+        .testimonial-quote {
+            padding: 2rem;
+        }
+
+        .testimonial-quote blockquote {
+            font-size: 1.2rem;
+        }
+    }
+</style>
+{% endblock %}

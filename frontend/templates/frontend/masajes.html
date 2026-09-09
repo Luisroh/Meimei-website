@@ -1,0 +1,208 @@
+{% extends 'frontend/base.html' %}
+{% load static %}
+
+{% block title %}Masajes Profesionales - Meimei Estética{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <h1>Masajes Profesionales</h1>
+    <p>El poder curativo del tacto al servicio de tu bienestar</p>
+</section>
+
+<section class="page-content">
+    <div class="services-intro">
+        <p class="intro-text">
+            En Meimei, cada masaje es una experiencia única diseñada para conectar con tu cuerpo,
+            liberar tensiones y restaurar tu energía. Nuestra fundadora, Mª José, combina técnicas
+            tradicionales con una sensibilidad especial que convierte cada sesión en un viaje de sanación.
+        </p>
+    </div>
+
+    <div class="services-list">
+        {% for servicio in servicios %}
+        <div class="service-item {% if forloop.counter|divisibleby:2 %}reverse{% endif %}">
+            <div class="service-item-image">
+                {% if servicio.imagen %}
+                <img src="{{ servicio.imagen.url }}" alt="{{ servicio.nombre }}">
+                {% else %}
+                <img src="https://placehold.co/800x600/F5D0D8/D4708A?text={{ servicio.nombre|urlencode }}"
+                    alt="{{ servicio.nombre }}">
+                {% endif %}
+            </div>
+            <div class="service-item-content">
+                <h3>{{ servicio.nombre }}</h3>
+                <p class="service-description">{{ servicio.descripcion }}</p>
+                <ul class="service-features">
+                    {% if servicio.duracion %}
+                    <li><i class="fas fa-clock"></i> Duración: {{ servicio.duracion }}</li>
+                    {% endif %}
+                    {% if servicio.tecnica %}
+                    <li><i class="fas fa-spa"></i> Técnica: {{ servicio.tecnica }}</li>
+                    {% endif %}
+                    {% if servicio.beneficio %}
+                    <li><i class="fas fa-heart"></i> Beneficio: {{ servicio.beneficio }}</li>
+                    {% endif %}
+                    {% if servicio.precio %}
+                    <li><i class="fas fa-tag"></i> Desde {{ servicio.precio }}€</li>
+                    {% endif %}
+                </ul>
+                <a href="{% url 'frontend:contacto' %}" class="btn-primary">Reservar Cita</a>
+            </div>
+        </div>
+        {% empty %}
+        <div style="text-align: center; padding: 3rem;">
+            <p>Próximamente más servicios. ¡Estamos actualizando!</p>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Llamada a la acción -->
+    <div class="cta-banner">
+        <h2>¿Listo para tu experiencia de sanación?</h2>
+        <p>Reserva tu cita y descubre el poder del masaje profesional</p>
+        <a href="{% url 'frontend:contacto' %}" class="btn-primary btn-large">Reservar Cita Ahora</a>
+    </div>
+</section>
+
+<style>
+    .services-intro {
+        text-align: center;
+        max-width: 800px;
+        margin: 0 auto 4rem;
+    }
+
+    .intro-text {
+        font-size: 1.2rem;
+        color: var(--gris-oscuro);
+        line-height: 1.8;
+    }
+
+    .service-item {
+        display: grid;
+        grid-template-columns: 1fr 1fr;
+        gap: 3rem;
+        margin-bottom: 4rem;
+        align-items: center;
+    }
+
+    .service-item.reverse {
+        direction: rtl;
+    }
+
+    .service-item.reverse .service-item-content {
+        direction: ltr;
+    }
+
+    .service-item-image img {
+        border-radius: var(--borde-redondo-grande);
+        box-shadow: var(--sombra-media);
+        width: 100%;
+        height: 350px;
+        object-fit: cover;
+    }
+
+    .service-item-content h3 {
+        font-size: 2rem;
+        color: var(--rosa-intenso);
+        margin-bottom: 1rem;
+    }
+
+    .service-description {
+        font-size: 1.05rem;
+        color: var(--gris-oscuro);
+        line-height: 1.7;
+        margin-bottom: 1.5rem;
+    }
+
+    .service-features {
+        list-style: none;
+        padding: 0;
+        margin-bottom: 1.5rem;
+    }
+
+    .service-features li {
+        padding: 0.5rem 0;
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        font-size: 1rem;
+        color: var(--gris-oscuro);
+    }
+
+    .service-features li i {
+        color: var(--rosa-intenso);
+        width: 25px;
+    }
+
+    .cta-banner {
+        background: linear-gradient(135deg, var(--rosa-intenso), var(--rosa-oscuro));
+        padding: 4rem 2rem;
+        border-radius: var(--borde-redondo-grande);
+        text-align: center;
+        color: var(--blanco);
+        margin-top: 3rem;
+    }
+
+    .cta-banner h2 {
+        font-size: 2.5rem;
+        color: var(--blanco);
+        margin-bottom: 1rem;
+    }
+
+    .cta-banner p {
+        font-size: 1.2rem;
+        margin-bottom: 2rem;
+        opacity: 0.9;
+    }
+
+    .btn-large {
+        padding: 1.2rem 3.5rem;
+        font-size: 1.2rem;
+        background: var(--blanco);
+        color: var(--rosa-intenso);
+        box-shadow: none;
+    }
+
+    .btn-large:hover {
+        background: var(--negro);
+        color: var(--blanco);
+    }
+
+    @media (max-width: 1024px) {
+        .service-item {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+
+        .service-item.reverse {
+            direction: ltr;
+        }
+
+        .service-item-image img {
+            height: 280px;
+        }
+
+        .cta-banner h2 {
+            font-size: 2rem;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .service-item-image img {
+            height: 220px;
+        }
+
+        .service-item-content h3 {
+            font-size: 1.6rem;
+        }
+
+        .cta-banner {
+            padding: 2.5rem 1.5rem;
+        }
+
+        .cta-banner h2 {
+            font-size: 1.6rem;
+        }
+    }
+</style>
+{% endblock %}

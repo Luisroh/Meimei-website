@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset="UTF-8">
+    <style>
+        body {
+            font-family: 'Quicksand', Arial, sans-serif;
+            color: #1A1A1A;
+            background-color: #F8E8EE;
+            padding: 20px;
+        }
+
+        .container {
+            max-width: 600px;
+            margin: 0 auto;
+            background: #FFFFFF;
+            border-radius: 15px;
+            padding: 30px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.08);
+        }
+
+        .header {
+            text-align: center;
+            padding-bottom: 20px;
+            border-bottom: 2px solid #F5D0D8;
+        }
+
+        .header h1 {
+            font-family: 'Playfair Display', serif;
+            color: #D4708A;
+            margin: 0;
+            font-size: 28px;
+        }
+
+        .content {
+            padding: 20px 0;
+        }
+
+        .field {
+            margin-bottom: 15px;
+        }
+
+        .field-label {
+            font-weight: 600;
+            color: #D4708A;
+            display: block;
+            margin-bottom: 3px;
+        }
+
+        .field-value {
+            background: #F8E8EE;
+            padding: 10px 15px;
+            border-radius: 8px;
+            margin: 0;
+        }
+
+        .message-box {
+            background: #F8E8EE;
+            padding: 15px;
+            border-radius: 8px;
+            border-left: 4px solid #D4708A;
+            margin: 10px 0;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+            padding-top: 20px;
+            border-top: 1px solid #F5D0D8;
+            color: #999;
+            font-size: 12px;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>📩 Nuevo mensaje de contacto</h1>
+            <p style="color: #666;">Recibido el {{ fecha }}</p>
+        </div>
+
+        <div class="content">
+            <div class="field">
+                <span class="field-label">👤 Nombre:</span>
+                <p class="field-value">{{ nombre }}</p>
+            </div>
+
+            <div class="field">
+                <span class="field-label">📧 Email:</span>
+                <p class="field-value">{{ email }}</p>
+            </div>
+
+            {% if telefono != 'No especificado' %}
+            <div class="field">
+                <span class="field-label">📱 Teléfono:</span>
+                <p class="field-value">{{ telefono }}</p>
+            </div>
+            {% endif %}
+
+            <div class="field">
+                <span class="field-label">💆 Servicio de interés:</span>
+                <p class="field-value">{{ servicio }}</p>
+            </div>
+
+            <div class="field">
+                <span class="field-label">💬 Mensaje:</span>
+                <div class="message-box">
+                    {{ mensaje|linebreaks }}
+                </div>
+            </div>
+        </div>
+
+        <div class="footer">
+            <p>Este mensaje ha sido enviado desde el formulario de contacto de Meimei Estética.</p>
+            <p>Puedes responder directamente desde el panel de administración o desde tu correo.</p>
+            <p><strong>Teléfono:</strong> 699 90 51 08</p>
+        </div>
+    </div>
+</body>
+
+</html>

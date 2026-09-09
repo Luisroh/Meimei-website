@@ -1,0 +1,293 @@
+<!-- frontend/templates/frontend/galeria.html -->
+{% extends 'frontend/base.html' %}
+{% load static %}
+
+{% block title %}Galería - Meimei Estética{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <h1>Nuestra Galería</h1>
+    <p>Un vistazo a nuestro espacio y los trabajos que realizamos</p>
+</section>
+
+<section class="page-content">
+    <!-- ============================================ -->
+    <!-- FILTROS CON ESTILOS MEIMEI                    -->
+    <!-- ============================================ -->
+    <div class="gallery-filters">
+        <button class="filter-btn active" data-filter="all">🌸 Todos</button>
+        <button class="filter-btn" data-filter="espacio">🌿 Nuestro Espacio</button>
+        <button class="filter-btn" data-filter="masajes">💆 Masajes</button>
+        <button class="filter-btn" data-filter="peluqueria">✂️ Peluquería</button>
+    </div>
+
+    <!-- ============================================ -->
+    <!-- GRID DE GALERÍA                             -->
+    <!-- ============================================ -->
+    <div class="gallery-grid" id="galleryGrid">
+        {% for imagen in imagenes %}
+        <div class="gallery-item" data-category="{{ imagen.categoria }}">
+            <img src="{{ imagen.imagen.url }}" alt="{{ imagen.titulo|default:'Imagen de galería' }}">
+            <div class="gallery-overlay">
+                <h3>{{ imagen.titulo|default:'Sin título' }}</h3>
+                <p>{{ imagen.get_categoria_display }}</p>
+            </div>
+        </div>
+        {% empty %}
+        <div style="text-align: center; padding: 3rem; grid-column: 1 / -1;">
+            <p>Próximamente más imágenes. ¡Estamos actualizando nuestra galería!</p>
+        </div>
+        {% endfor %}
+    </div>
+</section>
+
+<!-- ============================================ -->
+<!-- ESTILOS COMPLETOS                           -->
+<!-- ============================================ -->
+<style>
+    /* ============================================ */
+    /* FILTROS DE GALERÍA (ESTILO MEIMEI)           */
+    /* ============================================ */
+
+    .gallery-filters {
+        display: flex;
+        justify-content: center;
+        gap: 0.8rem;
+        margin-bottom: 3rem;
+        flex-wrap: wrap;
+        padding: 0.5rem;
+    }
+
+    .filter-btn {
+        padding: 0.7rem 1.8rem;
+        background: var(--blanco);
+        border: 2px solid var(--rosa-tarjeta);
+        border-radius: 50px;
+        color: var(--gris-oscuro);
+        font-family: var(--fuente-texto);
+        font-weight: 600;
+        font-size: 0.95rem;
+        cursor: pointer;
+        transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+        letter-spacing: 0.3px;
+        display: inline-flex;
+        align-items: center;
+        gap: 0.5rem;
+    }
+
+    .filter-btn:hover {
+        background: var(--rosa-suave);
+        border-color: var(--rosa-acento);
+        transform: translateY(-2px);
+        box-shadow: 0 4px 15px rgba(212, 112, 138, 0.12);
+    }
+
+    .filter-btn:active {
+        transform: translateY(0px);
+    }
+
+    .filter-btn.active {
+        background: linear-gradient(135deg, var(--rosa-intenso), var(--rosa-oscuro));
+        color: var(--blanco);
+        border-color: var(--rosa-intenso);
+        box-shadow: 0 4px 20px rgba(212, 112, 138, 0.3);
+    }
+
+    .filter-btn.active:hover {
+        box-shadow: 0 6px 30px rgba(212, 112, 138, 0.4);
+        transform: translateY(-2px);
+    }
+
+    .filter-btn i {
+        font-size: 1rem;
+        opacity: 0.7;
+        transition: opacity 0.3s ease;
+    }
+
+    .filter-btn.active i {
+        opacity: 1;
+    }
+
+    /* ============================================ */
+    /* GRID DE GALERÍA - IMÁGENES MÁS GRANDES      */
+    /* ============================================ */
+
+    .gallery-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fill, minmax(350px, 1fr));
+        gap: 1.5rem;
+    }
+
+    .gallery-item {
+        position: relative;
+        overflow: hidden;
+        border-radius: var(--borde-redondo);
+        box-shadow: var(--sombra-suave);
+        cursor: pointer;
+        height: 350px;
+        transition: var(--transicion-media);
+    }
+
+    .gallery-item:hover {
+        transform: scale(1.03);
+        box-shadow: var(--sombra-media);
+    }
+
+    .gallery-item img {
+        width: 100%;
+        height: 100%;
+        object-fit: cover;
+        transition: var(--transicion-media);
+    }
+
+    .gallery-item:hover img {
+        transform: scale(1.1);
+    }
+
+    .gallery-overlay {
+        position: absolute;
+        bottom: 0;
+        left: 0;
+        right: 0;
+        background: linear-gradient(transparent, rgba(0, 0, 0, 0.7));
+        padding: 2rem 1.5rem 1.5rem;
+        color: var(--blanco);
+        transform: translateY(100%);
+        transition: var(--transicion-media);
+    }
+
+    .gallery-item:hover .gallery-overlay {
+        transform: translateY(0);
+    }
+
+    .gallery-overlay h3 {
+        font-size: 1.3rem;
+        color: var(--blanco);
+        margin-bottom: 0.3rem;
+        font-family: var(--fuente-titulos);
+    }
+
+    .gallery-overlay p {
+        font-size: 0.9rem;
+        opacity: 0.9;
+        font-weight: 300;
+    }
+
+    /* ============================================ */
+    /* RESPONSIVE                                  */
+    /* ============================================ */
+
+    @media (max-width: 1024px) {
+        .gallery-grid {
+            grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
+        }
+
+        .gallery-item {
+            height: 300px;
+        }
+    }
+
+    @media (max-width: 768px) {
+        .gallery-filters {
+            gap: 0.6rem;
+            padding: 0;
+        }
+
+        .filter-btn {
+            padding: 0.5rem 1.2rem;
+            font-size: 0.85rem;
+        }
+
+        .filter-btn i {
+            font-size: 0.85rem;
+        }
+
+        .gallery-grid {
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 1rem;
+        }
+
+        .gallery-item {
+            height: 280px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        .gallery-filters {
+            gap: 0.4rem;
+        }
+
+        .filter-btn {
+            padding: 0.4rem 1rem;
+            font-size: 0.75rem;
+        }
+
+        .filter-btn i {
+            font-size: 0.75rem;
+        }
+
+        .gallery-grid {
+            grid-template-columns: 1fr;
+            gap: 1rem;
+        }
+
+        .gallery-item {
+            height: 260px;
+        }
+    }
+
+    /* ============================================ */
+    /* ANIMACIÓN DE ENTRADA                        */
+    /* ============================================ */
+
+    @keyframes fadeInUp {
+        from {
+            opacity: 0;
+            transform: translateY(30px);
+        }
+
+        to {
+            opacity: 1;
+            transform: translateY(0);
+        }
+    }
+
+    .gallery-item {
+        animation: fadeInUp 0.6s ease forwards;
+    }
+</style>
+
+<!-- ============================================ -->
+<!-- JAVASCRIPT PARA FILTROS                     -->
+<!-- ============================================ -->
+<script>
+    document.addEventListener('DOMContentLoaded', function () {
+        const filterButtons = document.querySelectorAll('.filter-btn');
+        const galleryItems = document.querySelectorAll('.gallery-item');
+
+        filterButtons.forEach(button => {
+            button.addEventListener('click', function () {
+                // Actualizar botón activo
+                filterButtons.forEach(btn => btn.classList.remove('active'));
+                this.classList.add('active');
+
+                const filter = this.dataset.filter;
+
+                galleryItems.forEach((item, index) => {
+                    if (filter === 'all' || item.dataset.category === filter) {
+                        item.style.display = 'block';
+                        item.style.animation = 'none';
+                        // Forzar reflujo para reiniciar animación
+                        void item.offsetHeight;
+                        item.style.animation = `fadeInUp 0.5s ease ${index * 0.05}s forwards`;
+                    } else {
+                        item.style.display = 'none';
+                    }
+                });
+            });
+        });
+    });
+</script>
+
+{% endblock %}

@@ -1,0 +1,126 @@
+{% extends 'frontend/base.html' %}
+{% load static %}
+
+{% block title %}Peluquería - Meimei Estética{% endblock %}
+
+{% block content %}
+<section class="page-header">
+    <h1>Peluquería</h1>
+    <p>Cuida tu imagen con los mejores profesionales</p>
+</section>
+
+<section class="page-content">
+    <div class="services-intro">
+        <p class="intro-text">
+            En Meimei, entendemos que tu cabello es tu carta de presentación. Nuestro equipo
+            de estilistas combina técnica y creatividad para ofrecerte un look que refleje
+            tu personalidad y te haga sentir radiante.
+        </p>
+    </div>
+
+    <div class="services-grid-modern">
+        {% for servicio in servicios %}
+        <div class="service-card-modern">
+            <div class="service-card-icon">
+                {% if servicio.imagen %}
+                <img src="{{ servicio.imagen.url }}" alt="{{ servicio.nombre }}"
+                    style="width: 70px; height: 70px; border-radius: 50%; object-fit: cover;">
+                {% else %}
+                <i class="fas fa-cut"></i>
+                {% endif %}
+            </div>
+            <h3>{{ servicio.nombre }}</h3>
+            <p>{{ servicio.descripcion }}</p>
+            {% if servicio.precio %}
+            <span class="service-price">Desde {{ servicio.precio }}€</span>
+            {% endif %}
+            <a href="{% url 'frontend:contacto' %}" class="btn-outline">Reservar</a>
+        </div>
+        {% empty %}
+        <div style="text-align: center; padding: 3rem; grid-column: 1 / -1;">
+            <p>Próximamente más servicios. ¡Estamos actualizando!</p>
+        </div>
+        {% endfor %}
+    </div>
+
+    <!-- Llamada a la acción -->
+    <div class="cta-banner">
+        <h2>Renueva tu imagen con nosotros</h2>
+        <p>Consulta con nuestros estilistas y descubre el look perfecto para ti</p>
+        </br>
+        <a href="{% url 'frontend:contacto' %}" class="btn-primary btn-large">Reservar Cita</a>
+    </div>
+</section>
+
+<style>
+    .services-grid-modern {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+        gap: 2rem;
+        margin: 3rem 0;
+    }
+
+    .service-card-modern {
+        background: var(--blanco);
+        padding: 2.5rem 2rem;
+        border-radius: var(--borde-redondo-grande);
+        text-align: center;
+        box-shadow: var(--sombra-suave);
+        transition: var(--transicion-media);
+        border: 1px solid var(--rosa-tarjeta);
+    }
+
+    .service-card-modern:hover {
+        transform: translateY(-8px);
+        box-shadow: var(--sombra-media);
+    }
+
+    .service-card-icon {
+        width: 70px;
+        height: 70px;
+        margin: 0 auto 1.5rem;
+        background: var(--rosa-suave);
+        border-radius: 50%;
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        font-size: 2rem;
+        color: var(--rosa-intenso);
+        transition: var(--transicion-rapida);
+    }
+
+    .service-card-modern:hover .service-card-icon {
+        background: var(--rosa-intenso);
+        color: var(--blanco);
+        transform: scale(1.1);
+    }
+
+    .service-card-modern h3 {
+        font-size: 1.4rem;
+        margin-bottom: 1rem;
+        color: var(--negro);
+    }
+
+    .service-card-modern p {
+        color: var(--gris-oscuro);
+        font-size: 0.95rem;
+        line-height: 1.6;
+        margin-bottom: 1.5rem;
+    }
+
+    .service-price {
+        display: block;
+        font-size: 1.3rem;
+        font-weight: 600;
+        color: var(--rosa-intenso);
+        margin-bottom: 1.5rem;
+    }
+
+    @media (max-width: 768px) {
+        .services-grid-modern {
+            grid-template-columns: 1fr;
+            gap: 1.5rem;
+        }
+    }
+</style>
+{% endblock %}

@@ -1,0 +1,45 @@
+<!-- frontend/templates/frontend/includes/header.html -->
+{% load static %}
+<header class="header">
+    <nav class="navbar">
+        <div class="nav-container">
+            <!-- Logo - CORREGIDO -->
+            <a href="{% url 'frontend:home' %}" class="nav-logo">
+                <img src="{% static 'images/logo.png' %}" alt="Meimei Estética" class="logo-img">
+                <span class="logo-text">Meimei</span>
+            </a>
+
+            <button class="nav-toggle" id="navToggle" aria-label="Menú">
+                <i class="fas fa-bars"></i>
+            </button>
+
+            <ul class="nav-menu" id="navMenu">
+                <li class="nav-item">
+                    <a href="{% url 'frontend:home' %}"
+                        class="nav-link {% if request.path == '/' %}active{% endif %}">Inicio</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'frontend:quienes_somos' %}"
+                        class="nav-link {% if 'quienes' in request.path %}active{% endif %}">Quiénes Somos</a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a href="#" class="nav-link dropdown-toggle">Servicios <i class="fas fa-chevron-down"></i></a>
+                    <ul class="dropdown-menu">
+                        <li><a href="{% url 'frontend:masajes' %}" class="dropdown-link">Masajes Profesionales</a></li>
+                        <li><a href="{% url 'frontend:peluqueria' %}" class="dropdown-link">Peluquería</a></li>
+                    </ul>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'frontend:galeria' %}"
+                        class="nav-link {% if 'galeria' in request.path %}active{% endif %}">Galería</a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'frontend:contacto' %}"
+                        class="nav-link {% if 'contacto' in request.path %}active{% endif %}">Contacto</a>
+                </li>
+            </ul>
+
+            <a href="{% url 'frontend:contacto' %}" class="btn-cta">Reservar Cita</a>
+        </div>
+    </nav>
+</header>

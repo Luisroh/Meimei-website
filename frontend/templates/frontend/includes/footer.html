@@ -1,0 +1,78 @@
+<!-- frontend/templates/frontend/includes/footer.html -->
+{% load static %}
+<footer class="footer">
+    <div class="footer-container">
+        <!-- ========================================= -->
+        <!-- MENSAJE INSPIRADOR (ACTUALIZADO)          -->
+        <!-- ========================================= -->
+        <div class="footer-message">
+            <p class="inspirational-text">
+                Cuidar el cuerpo y el alma es el primer paso para vivir en plenitud.
+                <span class="highlight">En Meimei, sanamos con amor, buenas energías y la compañía de quien más
+                    queremos.</span>
+            </p>
+        </div>
+
+        <!-- ========================================= -->
+        <!-- GRID DEL FOOTER                           -->
+        <!-- ========================================= -->
+        <div class="footer-grid">
+            <!-- Columna 1: Enlaces rápidos -->
+            <div class="footer-col">
+                <h4>Meimei Estética</h4>
+                <ul>
+                    <li><a href="{% url 'frontend:quienes_somos' %}">Nuestra historia</a></li>
+                    <li><a href="{% url 'frontend:masajes' %}">Masajes profesionales</a></li>
+                    <li><a href="{% url 'frontend:peluqueria' %}">Peluquería</a></li>
+                </ul>
+            </div>
+
+            <!-- Columna 2: Contacto real -->
+            <div class="footer-col">
+                <h4>Contacto</h4>
+                <ul>
+                    <li><i class="fas fa-phone"></i> <a href="https://wa.me/34699905108" target="_blank">699 90 51
+                            08</a></li>
+                    <li><i class=" fas fa-envelope"></i> <a href="mailto:mei.info.contacto@gmail.com"
+                            target="_blank">mei.info.contacto@gmail.com</a></li>
+                    <li><i class="fas fa-map-marker-alt"></i> Carrer de Jaume Fabra, 7, Sants-Montjuïc, 08004 Barcelona
+                    </li>
+                </ul>
+            </div>
+
+            <!-- Columna 3: Horario real -->
+            <div class="footer-col">
+                <h4>Horario</h4>
+                <ul>
+                    <li><strong>Lun - Vie:</strong> 10:00 - 20:00</li>
+                    <li><strong>Sábado:</strong> 10:00 - 16:00</li>
+                    <li><strong>Domingo:</strong> Cerrado</li>
+                </ul>
+            </div>
+
+            <!-- Columna 4: Redes sociales -->
+            <div class="footer-col">
+                <h4>Síguenos</h4>
+                <div class="social-links">
+                    <a href="https://www.instagram.com/meimei_perruqueria_unas/" class="social-link"
+                        aria-label="Instagram" target="_blank"><i class="fab fa-instagram"></i></a>
+                    <a href="https://www.facebook.com/profile.php?id=100090729540029&locale=es_ES" class="social-link"
+                        aria-label="Facebook" target="_blank"><i class="fab fa-facebook"></i></a>
+                    <a href="https://wa.me/34699905108" class="social-link" aria-label="WhatsApp"><i
+                            class="fab fa-whatsapp" target="_blank" target="_blank"></i></a>
+                    <a href="https://www.tiktok.com/@meimei_perruqueria?lang=es" class="social-link" aria-label="TikTok"
+                        target="_blank"><i class="fab fa-tiktok"></i></a>
+                </div>
+            </div>
+        </div>
+
+        <!-- ========================================= -->
+        <!-- COPYRIGHT                                 -->
+        <!-- ========================================= -->
+        <div class="footer-bottom">
+            <p>&copy; {% now "Y" %} Meimei Estética. Todos los derechos reservados. <br>
+                <small>Hecho con <i class="fas fa-heart" style="color: #D4708A;"></i> y buenas energías</small>
+            </p>
+        </div>
+    </div>
+</footer>

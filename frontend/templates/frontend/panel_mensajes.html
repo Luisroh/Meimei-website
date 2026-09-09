@@ -1,0 +1,373 @@
+{% extends 'frontend/base.html' %}
+{% load static %}
+
+{% block title %}Panel de Mensajes - Meimei Estética{% endblock %}
+
+{% block content %}
+<section class="page-header"
+    style="background: linear-gradient(135deg, var(--rosa-intenso), var(--rosa-oscuro)); color: white;">
+    <h1 style="color: white;">📬 Bandeja de entrada 📬</h1>
+    <p style="color: rgba(255,255,255,0.9);">Gestiona los mensajes de tus clientes</p>
+</section>
+
+<section class="page-content">
+    {% if messages %}
+    <div class="messages-container">
+        {% for message in messages %}
+        <div class="message message-{{ message.tags }}">
+            {{ message }}
+        </div>
+        {% endfor %}
+    </div>
+    {% endif %}
+
+
+    <div class="stats-grid">
+        <div class="stat-card">
+            <span class="stat-number">{{ total }}</span>
+            <span class="stat-label">Total mensajes</span>
+        </div>
+        <div class="stat-card" style="border-color: var(--rosa-intenso);">
+            <span class="stat-number" style="color: var(--rosa-intenso);">{{ no_leidos }}</span>
+            <span class="stat-label">Sin leer</span>
+        </div>
+        <div class="stat-card" style="border-color: #4caf50;">
+            <span class="stat-number" style="color: #4caf50;">{{ no_respondidos }}</span>
+            <span class="stat-label">Pendientes de responder</span>
+        </div>
+    </div>
+
+    <div class="messages-list">
+        {% for mensaje in page_obj %}
+        <div
+            class="message-card {% if not mensaje.leido %}unread{% endif %} {% if mensaje.respondido %}responded{% endif %}">
+            <div class="message-header">
+                <div class="message-sender">
+                    <span class="sender-name">
+                        {% if not mensaje.leido %}
+                        <span class="unread-badge">●</span>
+                        {% endif %}
+                        {{ mensaje.nombre }}
+                    </span>
+                    <span class="sender-email">{{ mensaje.email }}</span>
+                    {% if mensaje.respondido %}
+                    <span class="badge badge-success">✓ Respondido</span>
+                    {% else %}
+                    <span class="badge badge-warning">⏳ Pendiente</span>
+                    {% endif %}
+                </div>
+                <div class="message-date">
+                    {{ mensaje.fecha_envio|date:"d/m/Y H:i" }}
+                </div>
+            </div>
+
+            <div class="message-body">
+                <div class="message-field">
+                    <strong>📱 Teléfono:</strong> {{ mensaje.telefono|default:"No especificado" }}
+                </div>
+                <div class="message-field">
+                    <strong>💆 Servicio:</strong> {{ mensaje.get_servicio_display|default:"No especificado" }}
+                </div>
+                <div class="message-field">
+                    <strong>💬 Mensaje:</strong>
+                    <p class="message-text">{{ mensaje.mensaje|linebreaks }}</p>
+                </div>
+            </div>
+
+            {% if mensaje.respuesta %}
+            <div class="message-response">
+                <strong>📨 Respuesta enviada:</strong>
+                <p class="response-text">{{ mensaje.respuesta|linebreaks }}</p>
+                <span class="response-date">Enviado: {{ mensaje.fecha_respuesta|date:"d/m/Y H:i" }}</span>
+            </div>
+            {% else %}
+
+            <form method="post" action="{% url 'frontend:enviar_respuesta' mensaje.id %}" class="response-form">
+                {% csrf_token %}
+                <div class="form-group" style="margin-top: 1rem;">
+                    <label for="respuesta_{{ mensaje.id }}"
+                        style="font-size: 0.9rem; font-weight: 600; color: var(--negro);">
+                        <i class="fas fa-pen"></i> Escribe tu respuesta {{ mensaje.nombre }}...
+                    </label>
+                    <textarea name="respuesta" id="respuesta_{{ mensaje.id }}" class="form-input" rows="3"
+                        placeholder="Escribe aquí tu respuesta para {{ mensaje.nombre }}..."
+                        style="font-size: 0.95rem; min-height: 80px; width: 100%;"></textarea>
+                </div>
+                <div style="display: flex; gap: 0.8rem; margin-top: 0.8rem;">
+                    <button type="submit" class="btn-primary" style="padding: 0.6rem 1.8rem; font-size: 0.9rem;">
+                        <i class="fas fa-paper-plane"></i> Enviar respuesta
+                    </button>
+                    <button type="button" class="btn-outline" onclick="marcarLeido({{ mensaje.id }})"
+                        style="padding: 0.6rem 1.8rem; font-size: 0.9rem;">
+                        <i class="fas fa-check"></i> Marcar como leído
+                    </button>
+                </div>
+            </form>
+            {% endif %}
+        </div>
+        {% empty %}
+        <div style="text-align: center; padding: 4rem 2rem; color: var(--gris-oscuro);">
+            <div style="font-size: 4rem; margin-bottom: 1rem;">📭</div>
+            <h3 style="margin-bottom: 0.5rem;">No hay mensajes</h3>
+            <p>Los mensajes de tus clientes aparecerán aquí</p>
+        </div>
+        {% endfor %}
+    </div>
+
+    {% if page_obj.has_other_pages %}
+    <div class="pagination">
+        {% if page_obj.has_previous %}
+        <a href="?page={{ page_obj.previous_page_number }}" class="page-link">‹ Anterior</a>
+        {% endif %}
+
+        <span class="page-current">
+            Página {{ page_obj.number }} de {{ page_obj.paginator.num_pages }}
+        </span>
+
+        {% if page_obj.has_next %}
+        <a href="?page={{ page_obj.next_page_number }}" class="page-link">Siguiente ›</a>
+        {% endif %}
+    </div>
+    {% endif %}
+</section>
+
+<style>
+    /* ... todos los estilos de antes ... */
+
+    .stats-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+        gap: 1.5rem;
+        margin-bottom: 2.5rem;
+    }
+
+    .stat-card {
+        background: var(--blanco);
+        padding: 1.5rem;
+        border-radius: var(--borde-redondo);
+        text-align: center;
+        border: 2px solid var(--rosa-tarjeta);
+        box-shadow: var(--sombra-suave);
+    }
+
+    .stat-number {
+        display: block;
+        font-family: var(--fuente-titulos);
+        font-size: 2.5rem;
+        font-weight: 700;
+        color: var(--negro);
+    }
+
+    .stat-label {
+        display: block;
+        color: var(--gris-oscuro);
+        font-size: 0.95rem;
+        margin-top: 0.3rem;
+    }
+
+    .messages-list {
+        display: flex;
+        flex-direction: column;
+        gap: 1.5rem;
+    }
+
+    .message-card {
+        background: var(--blanco);
+        border-radius: var(--borde-redondo);
+        padding: 1.5rem;
+        box-shadow: var(--sombra-suave);
+        border-left: 4px solid var(--rosa-tarjeta);
+        transition: var(--transicion-rapida);
+    }
+
+    .message-card:hover {
+        box-shadow: var(--sombra-media);
+        transform: translateX(5px);
+    }
+
+    .message-card.unread {
+        border-left-color: var(--rosa-intenso);
+        background: var(--rosa-suave);
+    }
+
+    .message-card.responded {
+        border-left-color: #4caf50;
+    }
+
+    .message-header {
+        display: flex;
+        justify-content: space-between;
+        align-items: center;
+        margin-bottom: 1rem;
+        padding-bottom: 0.5rem;
+        border-bottom: 1px solid var(--rosa-suave);
+        flex-wrap: wrap;
+        gap: 0.5rem;
+    }
+
+    .message-sender {
+        display: flex;
+        align-items: center;
+        gap: 0.8rem;
+        flex-wrap: wrap;
+    }
+
+    .sender-name {
+        font-weight: 600;
+        font-size: 1.1rem;
+        color: var(--negro);
+    }
+
+    .unread-badge {
+        color: var(--rosa-intenso);
+        font-size: 1.2rem;
+        margin-right: 0.3rem;
+        animation: pulse 1.5s ease infinite;
+    }
+
+    .sender-email {
+        color: var(--gris-oscuro);
+        font-size: 0.9rem;
+    }
+
+    .badge {
+        font-size: 0.75rem;
+        padding: 0.2rem 0.8rem;
+        border-radius: 50px;
+        font-weight: 600;
+    }
+
+    .badge-success {
+        background: #e8f5e9;
+        color: #2e7d32;
+    }
+
+    .badge-warning {
+        background: #fff3e0;
+        color: #e65100;
+    }
+
+    .message-date {
+        color: var(--gris-oscuro);
+        font-size: 0.85rem;
+    }
+
+    .message-body {
+        margin-bottom: 1rem;
+    }
+
+    .message-field {
+        margin-bottom: 0.5rem;
+        color: var(--gris-oscuro);
+    }
+
+    .message-field strong {
+        color: var(--negro);
+    }
+
+    .message-text {
+        background: var(--rosa-suave);
+        padding: 0.8rem 1rem;
+        border-radius: var(--borde-redondo);
+        margin-top: 0.3rem;
+        line-height: 1.6;
+    }
+
+    .message-response {
+        background: #e8f5e9;
+        padding: 1rem;
+        border-radius: var(--borde-redondo);
+        margin-top: 1rem;
+        border-left: 4px solid #4caf50;
+    }
+
+    .response-text {
+        margin: 0.5rem 0;
+        color: var(--negro);
+        line-height: 1.6;
+    }
+
+    .response-date {
+        font-size: 0.8rem;
+        color: var(--gris-oscuro);
+    }
+
+    .response-form {
+        margin-top: 1rem;
+        padding-top: 1rem;
+        border-top: 1px solid var(--rosa-suave);
+    }
+
+    .response-form .form-group {
+        margin-bottom: 0;
+    }
+
+    .response-form textarea:focus {
+        min-height: 120px;
+    }
+
+    .pagination {
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        gap: 1rem;
+        margin-top: 2rem;
+    }
+
+    .page-link {
+        padding: 0.5rem 1.2rem;
+        background: var(--blanco);
+        border: 2px solid var(--rosa-tarjeta);
+        border-radius: 50px;
+        color: var(--negro);
+        transition: var(--transicion-rapida);
+    }
+
+    .page-link:hover {
+        background: var(--rosa-intenso);
+        color: var(--blanco);
+        border-color: var(--rosa-intenso);
+    }
+
+    .page-current {
+        color: var(--gris-oscuro);
+        font-weight: 500;
+    }
+
+    @media (max-width: 768px) {
+        .message-header {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.3rem;
+        }
+
+        .message-sender {
+            flex-direction: column;
+            align-items: flex-start;
+            gap: 0.3rem;
+        }
+
+        .stats-grid {
+            grid-template-columns: 1fr;
+        }
+    }
+</style>
+
+<script>
+    function marcarLeido(mensajeId) {
+        // Crear formulario para marcar como leído
+        const form = document.createElement('form');
+        form.method = 'POST';
+        form.action = `/panel/mensajes/marcar/${mensajeId}/`;
+
+        const csrfInput = document.createElement('input');
+        csrfInput.type = 'hidden';
+        csrfInput.name = 'csrfmiddlewaretoken';
+        csrfInput.value = '{{ csrf_token }}';
+
+        form.appendChild(csrfInput);
+        document.body.appendChild(form);
+        form.submit();
+    }
+</script>
+{% endblock %}
