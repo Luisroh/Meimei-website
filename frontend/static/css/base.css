@@ -1,28 +1,39 @@
 :root {
+    /* Paleta de colores - VERDE Y DORADO (elegancia y prosperidad) */
     --blanco: #FFFFFF;
-    --rosa-suave: #F8E8EE;
-    --rosa-tarjeta: #F5D0D8;
-    --rosa-claro: #F0C4CF;
-    --rosa-acento: #E8A0B4;
-    --rosa-intenso: #D4708A;
-    --rosa-oscuro: #C45A7A;
+    --rosa-suave: #F0F5F0;
+    /* Antes rosa → ahora verde menta (fondos) */
+    --rosa-tarjeta: #E0EBE0;
+    /* Antes rosa → ahora verde claro (tarjetas) */
+    --rosa-claro: #C8DCC8;
+    /* Antes rosa → ahora verde suave */
+    --rosa-acento: #D4AF37;
+    /* Antes rosa → ahora DORADO (lujo) */
+    --rosa-intenso: #2E7D32;
+    /* Antes rosa → ahora VERDE BOSQUE (principal) */
+    --rosa-oscuro: #1B5E20;
+    /* Antes rosa → ahora VERDE OSCURO */
     --negro: #1A1A1A;
     --gris-oscuro: #333333;
     --gris-claro: #F5F5F5;
-    --verde-planta: #5B8C5A;
-    --verde-claro: #8AB88A;
-    --verde-musgo: #4A7A49;
+    --verde-planta: #2E7D32;
+    --verde-claro: #C8DCC8;
+    --verde-musgo: #1B5E20;
 
+    /* Sombras */
     --sombra-suave: 0 4px 15px rgba(0, 0, 0, 0.08);
     --sombra-media: 0 8px 30px rgba(0, 0, 0, 0.12);
     --sombra-fuerte: 0 15px 50px rgba(0, 0, 0, 0.15);
 
+    /* Transiciones */
     --transicion-rapida: 0.3s ease;
     --transicion-media: 0.5s ease;
 
+    /* Bordes */
     --borde-redondo: 15px;
     --borde-redondo-grande: 30px;
 
+    /* Fuentes */
     --fuente-titulos: 'Playfair Display', serif;
     --fuente-texto: 'Quicksand', sans-serif;
 }
